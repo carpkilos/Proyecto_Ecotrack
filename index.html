@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d2e1a" />
+  <title>EcoTrack!</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+</head>
+<body>
+
+<!-- ── SVG Symbols ── -->
+<svg hidden>
+  <symbol id="ico-home" viewBox="0 0 24 24">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </symbol>
+  <symbol id="ico-user" viewBox="0 0 24 24">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+    <circle cx="12" cy="7" r="4"/>
+  </symbol>
+  <symbol id="ico-bell" viewBox="0 0 24 24">
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+  </symbol>
+  <symbol id="ico-menu" viewBox="0 0 24 24">
+    <line x1="3" y1="6"  x2="21" y2="6"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </symbol>
+  <symbol id="ico-settings" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </symbol>
+  <symbol id="ico-logout" viewBox="0 0 24 24">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+    <polyline points="16 17 21 12 16 7"/>
+    <line x1="21" y1="12" x2="9" y2="12"/>
+  </symbol>
+</svg>
+
+<!-- ── Nav template ── -->
+<template id="tpl-nav">
+  <nav class="nav-bar">
+    <button class="nav-btn"><svg><use href="#ico-home"/></svg></button>
+    <button class="nav-btn"><svg><use href="#ico-user"/></svg></button>
+    <button class="nav-btn"><svg><use href="#ico-bell"/></svg></button>
+    <button class="nav-btn"><svg><use href="#ico-menu"/></svg></button>
+  </nav>
+</template>
+
+<div class="phone">
+
+  <!-- ══════════════════════════════════
+       LOGIN
+  ══════════════════════════════════ -->
+  <div class="screen active" id="screen-login">
+    <span class="dot" style="width:8px;height:8px;top:18%;left:10%"></span>
+    <span class="dot" style="width:5px;height:5px;top:30%;left:88%"></span>
+    <span class="dot" style="width:10px;height:10px;top:48%;right:8%"></span>
+
+    <div class="login-hero">
+      <svg class="tree-illustration" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="80" cy="152" rx="36" ry="6" fill="rgba(0,0,0,0.25)"/>
+        <rect x="72" y="108" width="16" height="42" rx="5" fill="#6b3f1f"/>
+        <rect x="76" y="110" width="5" height="38" rx="3" fill="#8b5a2b" opacity="0.5"/>
+        <path d="M80 110 Q56 92 44 72" stroke="#6b3f1f" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M80 110 Q104 94 114 74" stroke="#6b3f1f" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M80 95 Q64 78 58 60" stroke="#5a3415" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M80 95 Q94 80 100 62" stroke="#5a3415" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <circle cx="80"  cy="58"  r="46" fill="#1a6b35"/>
+        <circle cx="54"  cy="68"  r="32" fill="#1f7a3d"/>
+        <circle cx="106" cy="66"  r="30" fill="#1f7a3d"/>
+        <circle cx="80"  cy="42"  r="36" fill="#27a349"/>
+        <circle cx="60"  cy="50"  r="24" fill="#2eba52"/>
+        <circle cx="100" cy="52"  r="22" fill="#2eba52"/>
+        <circle cx="80"  cy="28"  r="28" fill="#33cc5a"/>
+        <circle cx="70"  cy="22"  r="12" fill="rgba(255,255,255,0.1)"/>
+        <circle cx="58"  cy="70"  r="5" fill="#4cd97a" opacity="0.7"/>
+        <circle cx="102" cy="60"  r="4" fill="#4cd97a" opacity="0.6"/>
+        <circle cx="80"  cy="15"  r="3" fill="#fff" opacity="0.4"/>
+      </svg>
+      <h1 class="login-logo">ECO <span>TRACK!</span></h1>
+    </div>
+
+    <div class="login-form-card">
+      <div class="input-group">
+        <div class="field-row">
+          <label for="login-email">Email</label>
+          <input id="login-email" type="email" placeholder="tucorreo@ejemplo.com" />
+        </div>
+        <div class="field-row">
+          <label for="login-pass">Password</label>
+          <input id="login-pass" type="password" placeholder="••••••••" />
+        </div>
+      </div>
+      <button class="btn-primary" onclick="handleLogin()">Iniciar Sesión</button>
+      <div class="social-row">
+        <button class="btn-social" onclick="socialLogin('X')" title="X">𝕏</button>
+        <button class="btn-social" onclick="socialLogin('Google')" title="Google">G</button>
+        <button class="btn-social" onclick="socialLogin('Instagram')" title="Instagram"><i class="ph ph-instagram-logo"></i></button>
+      </div>
+      <div class="footer-link">
+        ¿Aún no tienes cuenta? <a onclick="showScreen('screen-register')">Regístrate</a>
+        &nbsp;·&nbsp;
+        <a onclick="showScreen('screen-forgot')">Olvidaste tu contraseña</a>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bar-dot active"></div><div class="bar-dot"></div>
+      <div class="bar-dot"></div><div class="bar-dot"></div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       REGISTER
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-register">
+    <div class="blob blob-tl"></div><div class="blob blob-br"></div>
+    <span class="dot" style="width:10px;height:10px;top:14%;left:8%"></span>
+    <span class="dot" style="width:6px;height:6px;top:22%;right:10%"></span>
+    <span class="dot" style="width:14px;height:14px;bottom:22%;right:6%"></span>
+    <button class="back-btn" onclick="showScreen('screen-login')">&#8592;</button>
+    <div class="screen-header">
+      <p class="dots-menu">···</p>
+      <div class="logo">ECO <span>TRACK!</span></div>
+    </div>
+    <div class="screen-body">
+      <button class="btn-primary btn-label">CREA TU CUENTA</button>
+      <div class="input-group">
+        <input class="eco-input" id="reg-user"    type="text"     placeholder="Nombre de usuario" />
+        <input class="eco-input" id="reg-email"   type="email"    placeholder="Correo electrónico" />
+        <input class="eco-input" id="reg-pass"    type="password" placeholder="Contraseña" />
+        <input class="eco-input" id="reg-confirm" type="password" placeholder="Confirma tu contraseña" />
+      </div>
+      <button class="btn-outline" onclick="handleRegister()">Crear</button>
+      <div class="footer-link">¿Ya tienes cuenta? <a onclick="showScreen('screen-login')">Inicia sesión</a></div>
+    </div>
+    <div class="bottom-bar">
+      <div class="bar-dot"></div><div class="bar-dot active"></div>
+      <div class="bar-dot"></div><div class="bar-dot"></div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       FORGOT PASSWORD
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-forgot">
+    <div class="blob blob-tl"></div><div class="blob blob-br"></div>
+    <button class="back-btn" onclick="showScreen('screen-login')">&#8592;</button>
+    <div class="screen-header">
+      <p class="dots-menu">···</p>
+      <div class="logo">ECO <span>TRACK!</span></div>
+    </div>
+    <div class="screen-body">
+      <button class="btn-primary btn-label btn-label--sm">¿OLVIDASTE TU CONTRASEÑA?</button>
+      <div class="input-group">
+        <input class="eco-input" id="forgot-name"  type="text"  placeholder="Tu nombre" />
+        <input class="eco-input" id="forgot-email" type="email" placeholder="Correo electrónico" />
+      </div>
+      <button class="btn-outline" onclick="handleForgot()">Enviar correo de recuperación</button>
+      <div class="footer-link"><a onclick="showScreen('screen-login')">← Volver al inicio</a></div>
+    </div>
+    <div class="bottom-bar">
+      <div class="bar-dot"></div><div class="bar-dot"></div>
+      <div class="bar-dot active"></div><div class="bar-dot"></div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       NEW PASSWORD
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-newpass">
+    <div class="blob blob-tl"></div><div class="blob blob-br"></div>
+    <button class="back-btn" onclick="showScreen('screen-forgot')">&#8592;</button>
+    <div class="screen-header">
+      <p class="dots-menu">···</p>
+      <div class="logo">ECO <span>TRACK!</span></div>
+    </div>
+    <div class="screen-body">
+      <button class="btn-primary btn-label btn-label--sm">CREA UNA NUEVA CONTRASEÑA</button>
+      <div class="input-group">
+        <input class="eco-input" id="new-pass"    type="password" placeholder="Nueva contraseña" />
+        <input class="eco-input" id="new-confirm" type="password" placeholder="Confirma tu contraseña" />
+      </div>
+      <button class="btn-outline" onclick="handleNewPass()">Confirmar</button>
+      <div class="footer-link"><a onclick="showScreen('screen-login')">← Volver al inicio</a></div>
+    </div>
+    <div class="bottom-bar">
+      <div class="bar-dot"></div><div class="bar-dot"></div>
+      <div class="bar-dot"></div><div class="bar-dot active"></div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       HOME
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-home">
+    <div class="app-bar">
+      <div class="app-bar-logo">ECO <span>TRACK!</span></div>
+      <div class="app-bar-icons">
+        <span class="pts-badge" id="home-puntos">0 pts</span>
+        <span class="icon-btn">🌿</span>
+      </div>
+    </div>
+
+    <div class="home-body">
+      <p class="sections-label">Secciones</p>
+      <div class="sections-grid">
+        <div class="section-card" onclick="showScreen('screen-cuestionario')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor" stroke="none"/></svg>
+          <span class="section-card-label">Eco-Quiz!</span>
+        </div>
+        <div class="section-card" onclick="showScreen('screen-config')">
+          <svg viewBox="0 0 24 24"><use href="#ico-settings"/></svg>
+          <span class="section-card-label">Configuración</span>
+        </div>
+        <div class="section-card" onclick="showScreen('screen-tienda'); renderTienda()">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="section-card-label">Tienda</span>
+        </div>
+        <div class="section-card" onclick="showScreen('screen-habito'); renderHabitos()">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span class="section-card-label">Nuevo Hábito</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta inferior dinámica: Eco Racha o Título -->
+      <div class="eco-racha-card" id="home-bottom-card">
+        <div class="eco-racha-left">
+          <div class="eco-racha-title">Eco <span>Titulos</span></div>
+          <div class="eco-racha-number">Se un verdadero</div>
+          <div class="eco-racha-unit">Eco-ganador</div>
+        </div>
+        <div class="eco-racha-leaf">🌿</div>
+      </div>
+    </div>
+
+    <nav class="nav-bar">
+      <button class="nav-btn active" onclick="showScreen('screen-home')"><svg><use href="#ico-home"/></svg></button>
+      <button class="nav-btn" onclick="showScreen('screen-perfil')"><svg><use href="#ico-user"/></svg></button>
+      <button class="nav-btn" onclick="showScreen('screen-config')"><svg><use href="#ico-menu"/></svg></button>
+    </nav>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       ECO-CUESTIONARIO (intro)
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-cuestionario">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-home')">&#8592;</button>
+      <div class="app-bar-logo">ECO <span>QUIZ!</span></div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="cues-body">
+      <div class="cues-title">Eco-Cuestionario</div>
+      <div class="cues-card">
+        <p class="cues-intro-text">
+          <strong class="text-white">Eco-Quiz!!</strong><br>
+          10 preguntas al azar sobre ecología y medioambiente
+        </p>
+        <button class="cues-ready-btn" onclick="iniciarQuiz()">¡Comenzar!</button>
+        <p class="cues-points-text">
+          Cada respuesta correcta vale <strong class="text-green">10 puntos</strong>.<br>
+          ¡Máximo 100 pts por ronda!
+        </p>
+      </div>
+    </div>
+    <div data-nav-inject data-nav-active="0"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       ECO-QUIZ  (pregunta activa)
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-quiz">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-home')">&#8592;</button>
+      <div class="app-bar-logo">ECO <span>QUIZ!</span></div>
+      <span class="icon-btn">🌿</span>
+    </div>
+
+    <div class="quiz-body">
+      <!-- Barra de progreso -->
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-bar" id="quiz-barra"></div>
+      </div>
+
+      <div class="quiz-question-num" id="quiz-num">Pregunta 1 de 10</div>
+      <div class="quiz-question-card" id="quiz-pregunta"></div>
+      <div class="quiz-options" id="quiz-opciones"></div>
+    </div>
+
+    <div data-nav-inject data-nav-active="0"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       QUIZ RESULTADO
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-quiz-resultado">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-home')">&#8592;</button>
+      <div class="app-bar-logo">ECO <span>QUIZ!</span></div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="resultado-body">
+      <div class="resultado-trofeo">🏆</div>
+      <div class="resultado-titulo">¡Quiz terminado!</div>
+      <div class="resultado-score-big" id="resultado-score">0</div>
+      <div class="resultado-sub" id="resultado-total">de 100 posibles</div>
+      <div class="resultado-mensaje" id="resultado-mensaje"></div>
+      <div class="resultado-puntos-total" id="resultado-puntos"></div>
+      <button class="btn-primary" style="margin-top:16px" onclick="iniciarQuiz()">Jugar otra vez</button>
+      <button class="btn-outline" style="margin-top:8px" onclick="showScreen('screen-home')">Volver al inicio</button>
+    </div>
+    <div data-nav-inject data-nav-active="0"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       CONFIGURACIÓN
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-config">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-home')">&#8592;</button>
+      <div class="app-bar-title">Configuración</div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="config-body">
+      <div class="config-title">Configuración</div>
+      <button class="config-item active" onclick="showScreen('screen-perfil')">
+        <svg><use href="#ico-user"/></svg>
+        <span class="config-item-label">Perfil</span><span class="config-item-arrow">›</span>
+      </button>
+      <button class="config-item" onclick="showToast('Abriendo notificaciones…')">
+        <svg><use href="#ico-bell"/></svg>
+        <span class="config-item-label">Notificaciones</span><span class="config-item-arrow">›</span>
+      </button>
+      <button class="config-item" onclick="showToast('Abriendo configuración…')">
+        <svg><use href="#ico-settings"/></svg>
+        <span class="config-item-label">Configuración</span><span class="config-item-arrow">›</span>
+      </button>
+      <button class="config-item" onclick="showScreen('screen-ayuda')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor" stroke="none"/></svg>
+        <span class="config-item-label">Ayuda</span><span class="config-item-arrow">›</span>
+      </button>
+      <button class="config-item config-item--danger" onclick="cerrarSesion()">
+        <svg><use href="#ico-logout"/></svg>
+        <span class="config-item-label">Cerrar sesión</span><span class="config-item-arrow">›</span>
+      </button>
+    </div>
+    <div data-nav-inject data-nav-active="2"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       NUEVO HÁBITO
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-habito">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-home')">&#8592;</button>
+      <div class="app-bar-title app-bar-title--green">Nuevo</div>
+      <div class="app-bar-right">
+        <span class="app-bar-subtitle">Hábito</span>
+        <span class="icon-btn">🌿</span>
+      </div>
+    </div>
+    <div class="habito-body">
+      <button class="habito-meta-btn header-btn" style="pointer-events:none">
+        Inicia una nueva meta ecológica
+      </button>
+      <!-- Opciones generadas por JS -->
+      <div id="habito-opciones"></div>
+      <button class="habito-add-btn" onclick="agregarMeta()">Agrega tu meta</button>
+    </div>
+    <div data-nav-inject data-nav-active="0"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       REVISIÓN DE HÁBITO (vencido)
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-revision-habito">
+    <div class="app-bar">
+      <div class="app-bar-logo">ECO <span>TRACK!</span></div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="revision-body">
+      <div class="revision-emoji">🌿</div>
+      <div class="revision-titulo">¡Tiempo de revisar tu meta!</div>
+      <div class="revision-habito" id="revision-nombre"></div>
+      <p class="revision-pregunta">¿Lograste completar este hábito?</p>
+      <p class="revision-reward" id="revision-puntos"></p>
+      <div class="revision-btns">
+        <button class="btn-primary" id="btn-logre">✅ ¡Sí lo logré!</button>
+        <button class="btn-outline" id="btn-nologre" style="margin-top:10px">No esta vez</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       HÁBITO LOGRADO
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-habito-exito">
+    <div class="app-bar">
+      <div class="app-bar-logo">ECO <span>TRACK!</span></div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="revision-body">
+      <div class="revision-emoji">🎉</div>
+      <div class="revision-titulo text-green">¡Felicidades!</div>
+      <p class="revision-pregunta" style="font-size:15px">Completaste tu meta ecológica.<br>El planeta te lo agradece 🌍</p>
+      <div class="resultado-puntos-total" id="exito-puntos" style="margin-top:8px"></div>
+      <div class="resultado-sub" id="exito-total"></div>
+      <button class="btn-primary" style="margin-top:20px" onclick="showScreen('screen-home'); refreshHome()">
+        Volver al inicio
+      </button>
+      <button class="btn-outline" style="margin-top:10px" onclick="showScreen('screen-habito'); renderHabitos()">
+        Agregar otro hábito
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       HÁBITO NO LOGRADO
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-habito-fallo">
+    <div class="app-bar">
+      <div class="app-bar-logo">ECO <span>TRACK!</span></div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="revision-body">
+      <div class="revision-emoji">🌱</div>
+      <div class="revision-titulo">No te rindas</div>
+      <p class="revision-pregunta" style="font-size:14px;line-height:1.7">
+        Sigue este <strong class="text-green">eco-camino</strong>.<br>
+        Cada pequeño paso cuenta para el planeta. 🌍<br>
+        ¡Elige otra meta y vuelve a intentarlo!
+      </p>
+      <button class="btn-primary" style="margin-top:20px" onclick="showScreen('screen-habito'); renderHabitos()">
+        Elegir nueva meta
+      </button>
+      <button class="btn-outline" style="margin-top:10px" onclick="showScreen('screen-home')">
+        Volver al inicio
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       PERFIL
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-perfil">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-home')">&#8592;</button>
+      <div class="app-bar-title app-bar-title--green">Perfil</div>
+      <div class="app-bar-icons">
+        <button class="icon-btn" onclick="showToast('🔔 Notificaciones')">
+          <svg><use href="#ico-bell"/></svg>
+        </button>
+        <span class="icon-btn">🌿</span>
+      </div>
+    </div>
+    <div class="perfil-body">
+      <div class="perfil-name">Hola Panfilo!</div>
+      <div class="perfil-avatar-wrap">
+        <div class="perfil-avatar" onclick="showToast('📷 Cambiar foto de perfil')">👤</div>
+        <div class="perfil-bio">Panfilo. &nbsp;Se unió en febrero 2024</div>
+      </div>
+      <div class="perfil-resumen-label">Resumen</div>
+      <div class="perfil-grid">
+        <div class="perfil-card">
+          <div class="perfil-card-icon">🌿</div>
+          <div class="perfil-card-text">
+            <div class="perfil-card-num">35</div>
+            <div class="perfil-card-lbl">días de racha</div>
+          </div>
+        </div>
+        <div class="perfil-card">
+          <div class="perfil-card-text">
+            <div class="perfil-card-lbl perfil-card-lbl--highlight">¡¡ Tienes<br>2 nuevos<br>hábitos !!</div>
+          </div>
+        </div>
+        <div class="perfil-card">
+          <div class="perfil-card-text">
+            <div class="perfil-card-lbl">Respuestas<br>correctas</div>
+            <div class="perfil-card-num">6</div>
+          </div>
+        </div>
+        <div class="perfil-card">
+          <div class="perfil-card-icon">🏅</div>
+          <div class="perfil-card-text">
+            <div class="perfil-card-lbl">Mejora<br>ecológica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-nav-inject data-nav-active="1"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       AYUDA
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-ayuda">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-config')">&#8592;</button>
+      <div class="app-bar-logo">Ayuda <span>!</span></div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="ayuda-body">
+      <div class="ayuda-section-title">Preguntas Frecuentes</div>
+      <div class="faq-item" id="faq1">
+        <button class="faq-toggle" onclick="toggleFaq('faq1')">¿CÓMO USAR ECO-TRACK? <span class="faq-arrow">&#8964;</span></button>
+        <div class="faq-content">Navega por las secciones, registra hábitos, completa el Eco-Quiz y gana puntos para canjear títulos en la Tienda.</div>
+      </div>
+      <div class="faq-item" id="faq2">
+        <button class="faq-toggle" onclick="toggleFaq('faq2')">¿POR QUÉ USAR ECO-TRACK? <span class="faq-arrow">&#8964;</span></button>
+        <div class="faq-content">EcoTrack te ayuda a construir hábitos sostenibles de forma divertida, medir tu impacto ambiental y contribuir a un planeta más verde.</div>
+      </div>
+      <div class="faq-item" id="faq3">
+        <button class="faq-toggle" onclick="toggleFaq('faq3')">¿CÓMO GANO PUNTOS? <span class="faq-arrow">&#8964;</span></button>
+        <div class="faq-content">Gana 10 pts por cada respuesta correcta en el Eco-Quiz (máx. 100 pts/ronda). También ganas pts al completar hábitos ecológicos a tiempo.</div>
+      </div>
+      <div class="ayuda-section-title">Contáctanos</div>
+      <div class="contact-card">
+        <div class="contact-row"><span>📞</span><span>446 103 1998</span></div>
+        <div class="contact-row"><span>✉️</span><span>EcoTrack@gmail.com</span></div>
+      </div>
+      <div class="ayuda-section-title">Sobre nosotros</div>
+      <div class="sobre-card">Somos una plataforma de aprendizaje que cuida del planeta mientras cuidas tu mente. Experiencias educativas divertidas, efectivas y 100% comprometidas con la sostenibilidad.</div>
+    </div>
+    <div data-nav-inject data-nav-active="3"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       TIENDA DE TÍTULOS  
+  ══════════════════════════════════ -->
+  <div class="screen" id="screen-tienda">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="showScreen('screen-home')">&#8592;</button>
+      <div class="app-bar-logo app-bar-logo--green">Eco-Tienda</div>
+      <span class="icon-btn">🌿</span>
+    </div>
+    <div class="tienda-body">
+      <div class="tienda-pts-banner">
+        <span id="tienda-puntos-disp">Tus puntos: 0 pts</span>
+      </div>
+
+      <div class="tienda-section-title">Títulos Ecológicos</div>
+      <p class="tienda-desc">Gana puntos en el Eco-Quiz y completando hábitos. Canjéalos por títulos que aparecerán en tu pantalla de inicio.</p>
+
+      <!-- Filas de títulos generadas por JS -->
+      <div id="tienda-titulos"></div>
+    </div>
+    <div data-nav-inject data-nav-active="0"></div>
+  </div>
+
+</div><!-- /phone -->
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>
